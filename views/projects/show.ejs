@@ -1,0 +1,84 @@
+<% layout('layouts/boilerplate')%>
+
+<div class="row">
+    <div class="col-6">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h4 class="card-title"><%= project.title%></h4>
+                <p class="card-text"><%= project.description%></p>
+            </div>
+            <h5 class="card-text">Project Board Users</h5>
+            <% for (let user of project.users){%>
+                <p class="card-text"><%= user.username %></p>
+            <% }%>
+            <h5 class="card-text">Project Board Admins</h5>
+            <% for (let admin of project.adminUsers){%>
+                <p class="card-text"><%= admin.username %></p>
+            <% }%>
+            <div class="container">
+                <h1>All Project Tasks</h1>
+                <% let userMatch = false; %>
+                <% for ( user of project.users) { %>
+                    <% if (currentUser && user._id.equals(currentUser._id)) { %>
+                        <% userMatch = true; %>
+                    <% } %>
+                <% } %>
+                <% if (userMatch && currentUser) { %>
+                    <div class="card-body"></div>
+                        <a class="card-link btn btn-info" href="/projects/<%=project._id%>/tasks/new">New Task</a>
+                    </div>
+                <% } %>
+                <% for (let category of project.category) { %>
+                    <h5 class="card-text"><%= category %></h5>
+                    <% for (let task of project.tasks) {%>
+                        <% if (category == task.category) { %>
+                            <div class="card mb-3">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card-body">
+                                            <h5 class="card-title"><%= task.title %> </h5>
+                                            <p class="card-text"><%= task.description %></p>
+                                            <p class="card-text">
+                                                <small class="text-muted"><%= task.deadline %></small>
+                                            </p>
+                                            <p class="card-text">
+                                                <small class="text-muted"><%= task.sprint %></small>
+                                            </p>
+                                            <p class="card-text">
+                                                <small class="text-muted"><%= task.performer %></small>
+                                            </p>
+                                            <p class="card-text">
+                                                <small class="text-muted"><%= task.author.username %></small>
+                                            </p>
+                                            <div class="card-body">
+                                                <a class="card-link btn btn-info" href="/projects/<%=project._id%>/tasks/<%=task._id%>">More Info</a>
+                                                <% if (userMatch && currentUser && task.author.equals(currentUser._id)) { %>
+                                                    <a class="card-link btn btn-info" href="/projects/<%=project._id%>/tasks/<%=task._id%>/edit">Edit Task</a>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% } %>
+                <% } %>
+            </div>
+            <% for (admin of project.adminUsers) { %>
+                <% if (currentUser && admin._id.equals(currentUser._id)) { %>
+                    <div class="card-body">
+                        <a class="card-link btn btn-info" href="/projects/<%=project._id%>/edit">Edit Project</a>
+                        <form class="d-inline" action="/projects/<%=project._id%>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger">Delete Project</button>
+                        </form>
+                    </div>
+                <% } %>
+            <% } %>
+            
+            <div class="card-footer text-muted">
+                2 days ago
+            </div>
+        </div>
+
+    </div>
+</div>

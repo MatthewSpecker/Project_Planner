@@ -1,0 +1,60 @@
+<% layout('layouts/boilerplate')%>
+
+<div class="row">
+    <h1 class="text-center">New Task</h1>
+    <div class="col-md-6 offset-md-3">
+        <form action="/projects/<%=project._id%>/tasks" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label class="form-label" for="title">Title</label>
+                <input class="form-control" type="text" id="title" name="task[title]" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <input class="form-control" type="text" id="description" name="task[description]" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="deadline">Deadline</label>
+                <input class="form-control" type="text" id="deadline" name="task[deadline]" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="sprint">Sprint</label>
+                <input class="form-control" type="text" id="sprint" name="task[sprint]" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="performer">Performer</label>
+                <input class="form-control" type="text" id="performer" name="task[performer]" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="category">Category</label>
+                <select class="form-control" id="category" name="task[category]" required>
+                    <% for (let category of project.category) { %>
+                        <option><%= category %></option>
+                    <% } %>
+                </select>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <button class="btn btn-success">Add Task</button>
+            </div>
+        </form>
+        <a href="/projects/<%=project._id %>/tasks">All Project Tasks</a>
+    </div>
+</div>
